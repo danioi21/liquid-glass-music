@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta
+    http-equiv="Content-Security-Policy"
+    content="default-src 'self'; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'none'; font-src 'self';"
+  />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Liquid Glass Island</title>
+  <link rel="stylesheet" href="island.css" />
+</head>
+<body>
+  <div id="lgIsland" class="lg-di mode-expanded" role="region" aria-label="Динамический остров — плеер">
+    <div class="lg-di-main" data-cycle title="Нажмите, чтобы сменить размер">
+      <div class="lg-di-cover">
+        <img id="lgDiCover" alt="" draggable="false" />
+        <span class="lg-di-fallback" aria-hidden="true">♪</span>
+        <span class="lg-di-eq" aria-hidden="true"><i></i><i></i><i></i></span>
+      </div>
+      <div class="lg-di-meta">
+        <div class="lg-di-title" id="lgDiTitle">Liquid Glass Music</div>
+        <div class="lg-di-artist" id="lgDiArtist">Ожидание трека</div>
+      </div>
+      <div class="lg-di-status">
+        <span class="lg-di-live" id="lgDiBadge">IDLE</span>
+      </div>
+      <div class="lg-di-actions">
+        <button type="button" class="lg-di-icon" id="lgDiPlaySm" aria-label="Воспроизвести"></button>
+        <button type="button" class="lg-di-icon lg-di-cycle" id="lgDiCycle" aria-label="Сменить размер"></button>
+      </div>
+    </div>
+    <div class="lg-di-panel">
+      <div class="lg-di-progress"><div class="lg-di-fill" id="lgDiFill"></div></div>
+      <div class="lg-di-times"><span id="lgDiCurrent">0:00</span><span id="lgDiTotal">0:00</span></div>
+      <div class="lg-di-controls">
+        <button type="button" class="lg-di-round" id="lgDiPrev" aria-label="Предыдущий трек"></button>
+        <button type="button" class="lg-di-round lg-di-mainbtn" id="lgDiPlay" aria-label="Воспроизвести"></button>
+        <button type="button" class="lg-di-round" id="lgDiNext" aria-label="Следующий трек"></button>
+        <div class="lg-di-presets" role="group" aria-label="Размер острова">
+          <button type="button" data-preset="compact" aria-label="Компактный"></button>
+          <button type="button" data-preset="expanded" aria-label="Расширенный"></button>
+          <button type="button" data-preset="full" aria-label="Развёрнутый"></button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="island.js"></script>
+</body>
+</html>
