@@ -1,0 +1,15 @@
+node_modules/
+.runtime/
+smtc/bridge-src/bin/
+smtc/bridge-src/obj/
+*.log
+
+# Build output and local artifacts (distributed via GitHub Releases)
+release/
+release-*/
+backups/
+*.zip
+graphify-out/
+
+# SmtcBridge.exe is built from smtc/bridge-src, not committed
+smtc/bridge/*.exe

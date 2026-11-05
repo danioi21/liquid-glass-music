@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'none'; font-src 'self';">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Liquid Glass Music</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-theme="dark">
+  <div class="app-shell">
+    <main class="widget" id="widget">
+
+      <!-- Жидкий фон: три цветных пятна + стекло поверх них -->
+      <div class="liquid" aria-hidden="true">
+        <span class="blob blob-1"></span>
+        <span class="blob blob-2"></span>
+        <span class="blob blob-3"></span>
+        <span class="liquid-shade"></span>
+      </div>
+      <div class="glass" aria-hidden="true"></div>
+      <div class="grain" aria-hidden="true"></div>
+
+      <div class="content">
+        <header class="topbar">
+          <div class="source-pill" id="sourcePill" title="Источник трека">
+            <span class="eq" id="eq" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span class="source-name" id="sourceName">Демо-режим</span>
+          </div>
+
+          <div class="window-controls">
+            <button class="win-btn" id="minBtn" type="button" aria-label="Свернуть" title="Свернуть">
+              <svg viewBox="0 0 16 16" aria-hidden="true">
+                <path d="M4 8h8" />
+              </svg>
+            </button>
+            <button class="win-btn win-close" id="closeBtn" type="button" aria-label="Закрыть" title="Закрыть">
+              <svg viewBox="0 0 16 16" aria-hidden="true">
+                <path d="M5 5l6 6M11 5l-6 6" />
+              </svg>
+            </button>
+          </div>
+        </header>
+
+        <div class="art-wrap">
+          <span class="art-glow" id="artGlow" aria-hidden="true"></span>
+          <div class="art-frame" id="artFrame">
+            <img class="cover" id="coverA" alt="Обложка альбома" draggable="false">
+            <img class="cover" id="coverB" alt="" draggable="false">
+            <span class="art-gloss" aria-hidden="true"></span>
+            <span class="art-vignette" aria-hidden="true"></span>
+          </div>
+        </div>
+
+        <section class="meta" id="meta" aria-live="polite">
+          <h1 class="title" id="trackTitle" title="">Midnight Drive</h1>
+          <p class="artist" id="trackArtist">Aurora Waves</p>
+        </section>
+
+        <section class="timeline">
+          <div class="progress" id="progress" role="slider" tabindex="0"
+               aria-label="Позиция трека" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"
+               aria-valuetext="0:00 из 0:00">
+            <div class="progress-track">
+              <div class="progress-fill" id="progressFill"></div>
+              <div class="progress-thumb" id="progressThumb"></div>
+            </div>
+          </div>
+          <div class="times">
+            <span id="timeCurrent">0:00</span>
+            <span id="timeTotal">0:00</span>
+          </div>
+        </section>
+
+        <div class="controls">
+          <button class="ctrl" id="prevBtn" type="button" aria-label="Предыдущий трек" title="Предыдущий трек">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M18.5 5.2v13.6a1 1 0 0 1-1.55.83L8 13.3v5.2a1 1 0 0 1-1 1H5.6a1 1 0 0 1-1-1V5.5a1 1 0 0 1 1-1H7a1 1 0 0 1 1 1v5.2l8.95-6.33a1 1 0 0 1 1.55.83Z" fill="currentColor"/>
+            </svg>
+          </button>
+
+          <button class="ctrl play" id="playBtn" type="button" aria-label="Воспроизведение" title="Играть / пауза">
+            <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M8.4 5.3c0-1.17 1.28-1.9 2.29-1.3l9.2 5.48a1.98 1.98 0 0 1 0 3.4l-9.2 5.48c-1 .6-2.29-.13-2.29-1.3V5.3Z" fill="currentColor"/>
+            </svg>
+            <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="6.2" y="4.6" width="4.1" height="14.8" rx="1.5" fill="currentColor"/>
+              <rect x="13.7" y="4.6" width="4.1" height="14.8" rx="1.5" fill="currentColor"/>
+            </svg>
+          </button>
+
+          <button class="ctrl" id="nextBtn" type="button" aria-label="Следующий трек" title="Следующий трек">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M5.5 5.2v13.6a1 1 0 0 0 1.55.83L16 13.3v5.2a1 1 0 0 0 1 1h1.4a1 1 0 0 0 1-1V5.5a1 1 0 0 0-1-1H18a1 1 0 0 0-1 1v5.2L8.05 4.37A1 1 0 0 0 5.5 5.2Z" fill="currentColor"/>
+            </svg>
+          </button>
+        </div>
+
+        <footer class="bottom">
+          <button class="ghost" id="openBtn" type="button" title="Открыть в Яндекс Музыке">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M14 5h5v5M19 5l-8 8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M18 14.5V18a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h3.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+            </svg>
+            <span id="openLabel">Открыть</span>
+          </button>
+
+          <div class="bottom-right">
+            <button class="icon-btn" id="pinBtn" type="button" aria-label="Поверх всех окон" title="Поверх всех окон">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M9 4h6l-1 5 3.2 3.2a1 1 0 0 1-.7 1.7H13v5.6l-1 1.5-1-1.5v-5.6H7.5a1 1 0 0 1-.7-1.7L10 9 9 4Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+              </svg>
+            </button>
+            <button class="icon-btn" id="settingsBtn" type="button" aria-label="Настройки" title="Настройки">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 15.3a3.3 3.3 0 1 0 0-6.6 3.3 3.3 0 0 0 0 6.6Z" fill="none" stroke="currentColor" stroke-width="1.7"/>
+                <path d="M19.1 13.6c.06-.53.06-1.07 0-1.6l1.55-1.2-1.7-2.95-1.83.74a7.6 7.6 0 0 0-1.38-.8L15.4 5.8h-3.4l-.34 1.99c-.48.2-.94.47-1.38.8l-1.83-.74-1.7 2.95 1.55 1.2a7.2 7.2 0 0 0 0 1.6l-1.55 1.2 1.7 2.95 1.83-.74c.44.33.9.6 1.38.8l.34 1.99h3.4l.34-1.99c.48-.2.94-.47 1.38-.8l1.83.74 1.7-2.95-1.55-1.2Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+              </svg>
+            </button>
+          </div>
+        </footer>
+      </div>
+
+      <!-- Настройки -->
+      <section class="sheet" id="sheet" aria-hidden="true" aria-label="Настройки">
+        <div class="sheet-head">
+          <h2>Настройки</h2>
+          <button class="icon-btn" id="sheetClose" type="button" aria-label="Закрыть настройки">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M7 7l10 10M17 7L7 17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+            </svg>
+          </button>
+        </div>
+
+        <div class="sheet-body">
+          <div class="group">
+            <span class="label">Источник</span>
+            <div class="seg" id="modeSeg">
+              <button type="button" data-mode="auto">Авто</button>
+              <button type="button" data-mode="yandex">Яндекс</button>
+              <button type="button" data-mode="demo">Демо</button>
+            </div>
+            <p class="hint" id="sourceHint">Ищу медиасессию…</p>
+          </div>
+
+          <div class="group">
+            <span class="label">Оформление</span>
+            <div class="seg" id="themeSeg">
+              <button type="button" data-theme="dark">Тёмное стекло</button>
+              <button type="button" data-theme="light">Светлое стекло</button>
+            </div>
+          </div>
+
+          <div class="group row">
+            <div>
+              <span class="label">Поверх всех окон</span>
+              <p class="hint">Виджет останется на виду.</p>
+            </div>
+            <button class="switch" id="pinSwitch" type="button" role="switch" aria-checked="false" aria-label="Поверх всех окон">
+              <span></span>
+            </button>
+          </div>
+
+          <div class="group">
+            <button class="wide-btn" id="openYandexBtn" type="button">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M14 5h5v5M19 5l-8 8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M18 14.5V18a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h3.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+              </svg>
+              Открыть Яндекс Музыку
+            </button>
+            <button class="wide-btn subtle" id="reconnectBtn" type="button">Переподключить медиасессию</button>
+          </div>
+
+          <p class="fineprint">
+            Трек и обложка берутся из системной медиасессии Windows (SMTC).
+            Токены и авторизация не нужны. Работает с приложением Яндекс Музыки
+            и с веб-плеером в браузере.
+          </p>
+        </div>
+      </section>
+
+      <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
