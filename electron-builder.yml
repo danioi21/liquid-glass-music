@@ -2,7 +2,6 @@ appId: ru.liquidglass.music
 productName: Liquid Glass Music
 asar: false
 npmRebuild: false
-electronDist: node_modules/electron/dist
 # Smaller download: LZMA ultra + only the locales the app actually ships.
 compression: maximum
 electronLanguages:

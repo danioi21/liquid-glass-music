@@ -13,6 +13,7 @@
     "smoke": "electron . --smoke"
   },
   "devDependencies": {
-    "electron": "latest"
+    "electron": "latest",
+    "electron-builder": "^26.18.0"
   }
 }

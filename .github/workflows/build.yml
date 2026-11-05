@@ -30,7 +30,7 @@ jobs:
         run: npm install --no-audit --no-fund
 
       - name: Build portable exe
-        run: npx electron-builder --win portable --x64
+        run: npx electron-builder --win portable --x64 --publish never
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
