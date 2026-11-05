@@ -200,18 +200,18 @@ button {
 
 #lgIsland .lg-di-eq {
   position: absolute;
-  right: 3px;
-  bottom: 3px;
+  right: 2px;
+  bottom: 2px;
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  gap: 1.5px;
-  width: 15px;
-  height: 15px;
-  padding: 3px;
-  border-radius: 6px;
-  background: rgba(0, 0, 0, .62);
-  backdrop-filter: blur(4px);
+  gap: 1px;
+  width: 10px;
+  height: 10px;
+  padding: 2px;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, .55);
+  backdrop-filter: blur(3px);
   opacity: 0;
   transition: opacity .3s ease;
 }
@@ -220,22 +220,22 @@ button {
 
 #lgIsland .lg-di-eq i {
   display: block;
-  width: 1.5px;
-  height: 4px;
-  border-radius: 2px;
+  width: 1px;
+  height: 3px;
+  border-radius: 1px;
   background: var(--di-accent-3);
-  box-shadow: 0 0 6px var(--di-tint-2);
+  box-shadow: 0 0 4px var(--di-tint-2);
   animation: lgDiEq .8s ease-in-out infinite;
 }
 
-#lgIsland .lg-di-eq i:nth-child(2) { height: 7px; animation-delay: .14s; }
-#lgIsland .lg-di-eq i:nth-child(3) { height: 5px; animation-delay: .28s; }
+#lgIsland .lg-di-eq i:nth-child(2) { height: 5px; animation-delay: .14s; }
+#lgIsland .lg-di-eq i:nth-child(3) { height: 4px; animation-delay: .28s; }
 
-#lgIsland.is-paused .lg-di-eq i { height: 3px !important; opacity: .55; animation-play-state: paused; }
+#lgIsland.is-paused .lg-di-eq i { height: 2px !important; opacity: .55; animation-play-state: paused; }
 
 @keyframes lgDiEq {
-  0%, 100% { height: 3px; }
-  50% { height: 8px; }
+  0%, 100% { height: 2px; }
+  50% { height: 5px; }
 }
 
 #lgIsland .lg-di-meta {
