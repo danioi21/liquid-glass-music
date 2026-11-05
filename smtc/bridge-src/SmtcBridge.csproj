@@ -15,7 +15,7 @@
     <InvariantGlobalization>false</InvariantGlobalization>
     <AssemblyName>SmtcBridge</AssemblyName>
     <RootNamespace>SmtcBridge</RootNamespace>
-    <Version>1.0.0</Version>
+    <Version>1.0.1</Version>
     <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
   </PropertyGroup>
 </Project>
