@@ -161,8 +161,12 @@ button {
   animation: drift-3 31s ease-in-out infinite;
 }
 
-@keyframes drift-1 {
-  0%,
+/* Don't burn GPU on blurred blobs while the window is hidden. */
+body.is-hidden .blob {
+  animation-play-state: paused;
+}
+
+@keyframes drift-1 {  0%,
   100% {
     transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
   }

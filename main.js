@@ -208,7 +208,9 @@ function createWindow() {
       contextIsolation: true,
       nodeIntegration: false,
       sandbox: true,
-      backgroundThrottling: false,
+      // Let Chromium throttle timers/compositing when the window is hidden —
+      // saves a lot of CPU/RAM while the widget sits in the tray.
+      backgroundThrottling: true,
       spellcheck: false,
     },
   };
@@ -310,7 +312,7 @@ function createIslandWindow() {
       contextIsolation: true,
       nodeIntegration: false,
       sandbox: true,
-      backgroundThrottling: false,
+      backgroundThrottling: true,
       spellcheck: false,
     },
   });

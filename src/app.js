@@ -113,6 +113,7 @@ const state = {
   lastDuration: -1,
   toastTimer: null,
   metaTimer: null,
+  tickTimer: null,
 };
 
 const bridge = window.api || {
@@ -787,38 +788,49 @@ function currentPosition() {
 /* ============================================================
    Отрисовка кадра
    ============================================================ */
-function tick() {
-  const info = currentTrackInfo();
-  const duration = Number(info.duration) || 0;
+  // Adaptive cadence: DOM updates are cheap at 4 fps and nobody can
+  // notice the difference on a progress bar, while 60+ fps rAF loop
+  // burned CPU constantly.
+  function tick() {
+    const info = currentTrackInfo();
+    const duration = Number(info.duration) || 0;
 
-  if (state.liveActive && Math.floor(duration) !== state.lastDuration) {
-    setTotal(duration);
+    if (state.liveActive && Math.floor(duration) !== state.lastDuration) {
+      setTotal(duration);
+    }
+
+    let position = currentPosition();
+    if (state.dragging) position = state.dragRatio * duration;
+
+    const ratio = duration > 0 ? clamp(position / duration, 0, 1) : 0;
+
+    els.progress.style.setProperty('--p', ratio.toFixed(5));
+    els.progress.setAttribute('aria-valuenow', String(Math.round(ratio * 100)));
+    els.progress.setAttribute(
+      'aria-valuetext',
+      `${formatTime(position)} из ${duration > 0 ? formatTime(duration) : '—'}`
+    );
+
+    const second = Math.floor(position);
+    if (second !== state.lastSecond) {
+      state.lastSecond = second;
+      els.timeCurrent.textContent = formatTime(position);
+    }
+
+    const playing = state.dragging ? false : isPlaying();
+    els.widget.classList.toggle('is-playing', playing);
+    els.playBtn.setAttribute('aria-label', playing ? 'Пауза' : 'Играть');
   }
 
-  let position = currentPosition();
-  if (state.dragging) position = state.dragRatio * duration;
-
-  const ratio = duration > 0 ? clamp(position / duration, 0, 1) : 0;
-
-  els.progress.style.setProperty('--p', ratio.toFixed(5));
-  els.progress.setAttribute('aria-valuenow', String(Math.round(ratio * 100)));
-  els.progress.setAttribute(
-    'aria-valuetext',
-    `${formatTime(position)} из ${duration > 0 ? formatTime(duration) : '—'}`
-  );
-
-  const second = Math.floor(position);
-  if (second !== state.lastSecond) {
-    state.lastSecond = second;
-    els.timeCurrent.textContent = formatTime(position);
+  function scheduleTick() {
+    clearTimeout(state.tickTimer);
+    const playing = !state.dragging && isPlaying();
+    const delay = state.dragging ? 100 : playing ? 250 : 1000;
+    state.tickTimer = setTimeout(() => {
+      tick();
+      scheduleTick();
+    }, delay);
   }
-
-  const playing = state.dragging ? false : isPlaying();
-  els.widget.classList.toggle('is-playing', playing);
-  els.playBtn.setAttribute('aria-label', playing ? 'Пауза' : 'Играть');
-
-  requestAnimationFrame(tick);
-}
 
 /* ============================================================
    Перемотка
@@ -1184,6 +1196,11 @@ function bindEvents() {
   });
 
   document.addEventListener('dragstart', (event) => event.preventDefault());
+
+// Pause the blurred blob animations while the window is hidden.
+document.addEventListener('visibilitychange', () => {
+  document.body.classList.toggle('is-hidden', document.hidden);
+});
 }
 
 /* ============================================================
@@ -1213,7 +1230,8 @@ async function boot() {
   state.demoBase = nowSec();
   setDemoTrack(0, { animate: false, reset: true });
   restartDemoClock();
-  requestAnimationFrame(tick);
+  tick();
+  scheduleTick();
 
   bridge.onState(handleLiveState);
 

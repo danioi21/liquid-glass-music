@@ -332,23 +332,46 @@
     flashTimer = window.setTimeout(() => root.classList.remove('is-new'), 850);
   }
 
+  // Cached last-painted values: skip DOM writes when nothing changed, so the
+  // 500 ms timer costs nothing while a track is paused.
+  const painted = {};
+
+  function paintText(el, key, text) {
+    if (painted[key] === text) return;
+    painted[key] = text;
+    el.textContent = text;
+  }
+
   function refresh() {
     const active = Boolean(track);
     const duration = active ? Math.max(0, (track.durationMs || 0) / 1000) : 0;
     const position = active ? Math.min(currentPosition(), duration || Infinity) : 0;
 
-    els.title.textContent = active ? track.title || 'Без названия' : 'Liquid Glass Music';
-    els.artist.textContent = active
+    paintText(els.title, 'title', active ? track.title || 'Без названия' : 'Liquid Glass Music');
+    paintText(els.artist, 'artist', active
       ? [track.artist, track.album].filter(Boolean).join(' · ') || 'Неизвестный исполнитель'
-      : 'Нет активного трека';
-    els.badge.textContent = active ? 'LIVE' : 'IDLE';
-    els.current.textContent = formatTime(position);
-    els.total.textContent = formatTime(duration);
-    els.fill.style.width = duration > 0 ? ((position / duration) * 100).toFixed(2) + '%' : '0%';
+      : 'Нет активного трека');
+    paintText(els.badge, 'badge', active ? 'LIVE' : 'IDLE');
+    paintText(els.current, 'current', formatTime(position));
+    paintText(els.total, 'total', formatTime(duration));
 
-    root.classList.toggle('is-live', active);
-    root.classList.toggle('is-demo', !active);
-    root.classList.toggle('is-paused', !active || !playing);
+    const fill = duration > 0 ? ((position / duration) * 100).toFixed(2) + '%' : '0%';
+    if (painted.fill !== fill) {
+      painted.fill = fill;
+      els.fill.style.width = fill;
+    }
+
+    const live = active;
+    const paused = !active || !playing;
+    if (painted.live !== live) {
+      painted.live = live;
+      root.classList.toggle('is-live', live);
+      root.classList.toggle('is-demo', !live);
+    }
+    if (painted.paused !== paused) {
+      painted.paused = paused;
+      root.classList.toggle('is-paused', paused);
+    }
     paintPlay(active && playing);
 
     if (cover !== lastCover) {
@@ -491,5 +514,5 @@
     .then((payload) => applyPayload(payload))
     .catch(() => refresh());
 
-  window.setInterval(refresh, 250);
+  window.setInterval(refresh, 500);
 })();
