@@ -1,0 +1,19 @@
+{
+  "name": "liquid-glass-music",
+  "productName": "Liquid Glass Music",
+  "version": "1.0.3",
+  "description": "Liquid Glass music widget for Yandex Music (Windows SMTC)",
+  "main": "main.js",
+  "license": "MIT",
+  "author": "danioi21",
+  "private": true,
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --dev",
+    "smoke": "electron . --smoke"
+  },
+  "devDependencies": {
+    "electron": "latest",
+    "electron-builder": "^26.18.0"
+  }
+}

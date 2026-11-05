@@ -1,0 +1,32 @@
+appId: ru.liquidglass.music
+productName: Liquid Glass Music
+asar: false
+npmRebuild: false
+# Smaller download: LZMA ultra + only the locales the app actually ships.
+compression: maximum
+electronLanguages:
+  - en
+  - ru
+afterPack: scripts/after-pack.js
+directories:
+  output: release
+  buildResources: assets
+files:
+  - main.js
+  - preload.js
+  - package.json
+  - create-shortcut.ps1
+  - start.bat
+  - src/**/*
+  - smtc/bridge/**/*
+  - assets/**/*
+  - scripts/**/*
+win:
+  target:
+    - target: portable
+      arch:
+        - x64
+  icon: assets/icon.png
+portable:
+  artifactName: Liquid Glass Music.exe
+  requestExecutionLevel: user
